@@ -1,0 +1,54 @@
+\chapter{Data}\label{ch:data}
+
+\section{Data sources}
+I use three open datasets, one for each scale of analysis (Table~\ref{tab:sources}). A download script fetches them, keeps the Bangladesh rows of the international files and writes the result to \texttt{data/raw/}. All later processing is scripted.
+
+\begin{table}[!h]
+\centering\small
+\caption{Data sources.}\label{tab:sources}
+\begin{tabularx}{\linewidth}{@{}p{2.1cm}Xp{2.4cm}p{2.7cm}@{}}
+\toprule
+Scale & Source and content & Coverage & Unit and size \\
+\midrule
+National & Our World in Data COVID-19 dataset \parencite{owid2024}: smoothed daily cases and deaths, test positivity, vaccination. OxCGRT \parencite{hale2021}: stringency and economic-support indices. Google Community Mobility Reports \parencite{google2022}: six mobility categories. & Mar 2020 -- Oct 2022 & Daily national series (959 days) \\
+Household & Women's empowerment and diet-diversity panel \parencite{panel2021}: in-person baseline (Nov 2019) and telephone follow-up (Nov 2020) of adult women in Faridpur (Dhaka division) and Patuakhali (Barishal division). & Nov 2019, Nov 2020 & \PanRaw{} rows in the file; \PanBase{} women eligible for follow-up; \PanN{} paired \\
+Individual & Online survey of anxiety, depression and stress \parencite{mhdata2022,islam2023}: demographics, COVID-19 exposure, vaccination, BAI, PHQ-9, PSS-4, LOT-R, MAAS. & May -- Jun 2021, all 8 divisions & \MhRaw{} respondents \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{National time series}
+The daily series for Bangladesh were joined by date over 1 March 2020 to 15 October 2022, the last day of the Google mobility reports. Cases and deaths are OWID's 7-day smoothed series, and test positivity ends in \PosLastDate. Stringency is the OxCGRT national index, averaged over its vaccinated and non-vaccinated variants. Each mobility series is the percentage change from the median for the same weekday between 3 January and 6 February 2020 \parencite{google2022}, and only the national rows were kept. Because that baseline is fixed in early 2020, later mobility levels also absorb changes in smartphone use and in how places are classified (Section~\ref{sec:retreat}).
+
+\section{Women's diet-diversity panel}
+The baseline survey interviewed adult women in Faridpur and Patuakhali districts in person in November 2019. In November 2020 a stratified random subsample was re-interviewed by telephone. The strata were district, age group (under 19, or 19 and over) and wealth quintile, computed within each district-by-age stratum from the Equity Tool asset score \parencite{panel2021}. Both rounds used the same 24-hour dietary recall over ten food groups.
+
+I use the authors' derived variables. For each round these are the number of food groups consumed (0--10), an indicator for meeting the MDD-W standard of at least five groups \parencite{fao2021}, and the ten food-group indicators. The follow-up adds two constraint indicators. A \emph{market-access} constraint means difficulty reaching markets or buying the usual amount because of movement restrictions, closed markets, shortages or high prices. A \emph{purchasing-power} constraint means that household income fell, meals or portions were reduced, the household borrowed or bought on credit, spent savings or sold assets, or cut non-food spending to buy food. The follow-up also records whether the husband earned less in the past seven days than in a typical week a year earlier, and the change since baseline in the woman's outside employment and in an index of her involvement in food-purchase decisions.
+
+The public file has \PanRaw{} rows and 1,036 columns. The authors' attrition flag is defined for \PanBase{} of these women, and I treat them as the group eligible for follow-up. Of these, \PanN{} completed the follow-up with diet data in both rounds and form the paired sample. The other \PanLost{} are compared with them in Section~\ref{sec:attrition}. The derived change in food groups equals the difference between the two rounds for every paired woman, which the panel script asserts.
+
+\section{Mental-health survey}
+\subsection{Design and instruments}
+The survey ran online in May and June 2021 and recruited adults aged 18 and over from all eight administrative divisions \parencite{islam2023}. It recorded sex, age, education, division, rural or urban residence, living arrangement, profession, frontline-worker status, marital status, children, a 0--10 subjective socio-economic ladder and any history of mental disturbance. COVID-19 exposure was recorded as own infection and place of treatment, infection and death among family members, and vaccination status. Five instruments were administered: the BAI (21 items, 0--63; \cite{beck1988}), the PHQ-9 (0--27; \cite{kroenke2001}), the PSS-4 (0--16; \cite{cohen1983}), the LOT-R (ten items, of which three form an optimism sub-scale, three a pessimism sub-scale and four are fillers; sub-scales 0--12; \cite{scheier1994}) and a five-item MAAS (5--30, higher scores meaning more mindful; \cite{brown2003}). The two outcomes are probable depression, PHQ-9 $\geq$ 10 \parencite{manea2012}, and probable anxiety, BAI $\geq$ 16.
+
+\subsection{Reproducing the published figures}\label{sec:reproduce}
+Before any modelling I checked the file against the published study. Each scale total recomputed from its items equals the total stored in the file, for all six scales and every respondent (asserted in \texttt{03\_mh\_explore.R}). The two thresholds give prevalences of \PrevDep\% for depression and \PrevAnx\% for anxiety, which are the published values \parencite{islam2023}.
+
+The PSS-4 needed a closer look. Its two positively worded items (2 and 3) correlate at $r = \PssRin$ with each other but only weakly with items 1 and 4 ($r = \PssRlo$ to $\PssRhi$), a pattern that a missed reverse-keying step would also produce. The file rules that out. All four items as stored correlate positively with the PHQ-9 total ($r = \PssPhqMin$ to $\PssPhqMax$), so items 2 and 3 are already reverse-keyed, and reversing them again lowers Cronbach's $\alpha$ from \AlphaPSS{} to \PssAlphaFlip. The low reliability is a property of the scale in this sample, where the two positively worded items share little variance with the two negatively worded ones. I keep the authors' total and treat stress as a secondary measure.
+
+The file also carries the original authors' working columns: category recodes, square-root transforms, dummy codes, Mahalanobis and Cook's distances, and outlier flags. I use none of them. Every model draws on a fixed list of named variables (Section~\ref{sec:ml-design}).
+
+\subsection{Cleaning and recoding}
+The \MhThird{} respondents who reported a third gender were excluded, as in the original study, which leaves $N = \MhN$. Several items were asked only of a subgroup, and I recoded these by rule instead of imputing them. The question on children was put only to married respondents, so unmarried respondents were coded as having none. The question on a family death was put only to respondents with an infected family member. It was combined with family infection into three levels (none; infected, no death; infected, a death), and the \FamDeathMissing{} respondents with an infected family member and a missing death item were coded as no death. Own infection and place of treatment were combined into not infected, treated at home, or hospitalised, and the \TreatMissing{} infected respondents with no treatment place were coded as treated at home, the modal category. Vaccine interest and days since infection were not used. Education was collapsed to four levels (SSC or below, HSC, Bachelor, Postgraduate) and living arrangement to four (family, hall or hostel, mess or flat, alone or other). After recoding there are no missing values. Appendix Table~\ref{tab:tab_table1} describes the sample.
+
+\subsection{Data-quality screen}\label{sec:suspect}
+The screen was prompted by the latent profile analysis, in which some mixture models fitted to the full sample isolated a small class with almost no within-class variance (Section~\ref{sec:spike}). The cause is a set of records with identical answers. I define the screen on the 19 items that are not part of either outcome, namely all ten LOT-R items including the fillers, the four PSS-4 items and the five MAAS items. Each has five or six response options, so it is very unlikely that five independent respondents would agree on all 19. A record is flagged if its 19-item block is shared by at least five respondents.
+
+The rule flags \SuspectN{} records, which between them use only \SuspectPatterns{} distinct blocks, and \SuspectChatto{} of them come from Chattogram division. None meets the depression threshold (\SuspectDep{} of \SuspectN). Their highest PHQ-9 total is \SuspectMaxPhq, and \SuspectPhqZero{} have a total of zero. Only \SuspectAnx{} meet the anxiety threshold. Two-dose vaccination is reported by \SuspectTwoDose\% of them, against \MhTwoDose\% of the whole sample. The block excludes the PHQ-9 and BAI items, so the flag cannot select on either outcome, and the absence of depression cases among the flagged records is a finding about them. Table~\ref{tab:tab_suspect_defs} shows what happens when the block is widened. Requiring the PHQ-9 items and the impairment item to match as well flags \SuspectAltPhq{} records, and requiring the BAI items to match flags \SuspectAltBai. Both sets are subsets of the primary one.
+
+\tabin{tab_suspect_defs}
+
+These records look like templated or duplicated entries, although the file cannot show how they arose. I call them the flagged records and do not delete them. The main analyses keep all \MhN{} respondents so that the published figures are reproduced. The latent profile models are fitted to the \GmmN{} unflagged respondents, and the adjusted odds ratios and the tier-B test AUC are re-estimated without the flagged records. Excluding them removes only non-cases from the depression analyses, nearly all from one division, so the regional and vaccination contrasts are the estimates most exposed to them.
+
+\section{Software and reproducibility}
+The analysis was run in R \parencite{ihaka1996} with the \texttt{tidyverse} \parencite{wickham2019,wickham2016} and the packages \texttt{changepoint} \parencite{killick2012}, \texttt{sandwich}, \texttt{mclust} \parencite{scrucca2016}, \texttt{glmnet} \parencite{friedman2010}, \texttt{ranger} \parencite{wright2017}, \texttt{xgboost} \parencite{chen2016}, \texttt{pROC} \parencite{robin2011} and \texttt{psych}. The tier-B prediction models were refitted in Python with scikit-learn \parencite{pedregosa2011} as a check on the implementation. One script, \texttt{reproduce.sh}, downloads the data if absent, deletes all outputs, runs the analysis scripts in order with a fixed seed (\texttt{20210601}) and compiles this report. Appendix~\ref{app:repro} gives the project structure.

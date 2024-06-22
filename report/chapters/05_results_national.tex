@@ -1,0 +1,43 @@
+\chapter{Results I: The national context}\label{ch:national}
+
+\section{Epidemic waves and segmentation}
+Figure~\ref{fig:timeline} shows the national series from March 2020 to October 2022. The \NWaves{} labelled waves peaked on \WaveOneDate{} (\WaveOneCases{} cases per day), \WaveTwoDate{} (\WaveTwoCases), \WaveThreeDate{} (\WaveThreeCases) and \WaveFourDate{} (\WaveFourCases). Daily deaths peaked at \DeathPeak{} on \DeathPeakDate, during the third wave. By \NatEndDate{} the cumulative crude case-fatality ratio was \NatCFR\%.
+
+PELT with the primary settings places \NChangepoints{} change points (Table~\ref{tab:tab_changepoints}), and between \NChangepointsLo{} and \NChangepointsHi{} under the alternative penalties and minimum segment lengths. The most informative segment is the longest, from \RegimeLongStart{} to \RegimeLongEnd, which contains both the second and the third wave. Cases did not return to their early-2021 level between the two peaks. Test positivity (Figure~\ref{fig:timeline}B) fell only to \PosTrough\% between them, against a low of \PosLowEarly\% in early 2021, and then reached \PosPeakThree\% in the third wave.
+
+\tabin{tab_changepoints}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig_national_timeline}
+\caption{Bangladesh, March 2020 to October 2022. (A) Smoothed daily confirmed cases, with PELT change points (dotted lines) and the four labelled wave peaks. (B) Test positivity. (C) OxCGRT stringency and economic-support indices, and the share of the population fully vaccinated. (D) Google mobility for workplaces, transit stations and residential areas (7-day means, percentage change from the early-2020 baseline). The orange band marks the mental-health survey (May--June 2021) and the green band the follow-up of the women's panel (November 2020).}\label{fig:timeline}
+\end{figure}
+
+\section{Timing of the two surveys}\label{sec:timing}
+The mental-health survey was in the field in May and June 2021. That window opened on the falling side of the second wave and closed on the rising side of the third. Smoothed cases stood at \SurveyCasesStart{} per day on 1 May, fell to a minimum of \SurveyCasesMin{} in mid-May and had climbed to \SurveyCasesEnd{} by 30 June. Positivity rose from \SurveyPosStart\% to \SurveyPosEnd\% over the same two months. The survey was thus fielded as the third wave began, inside the long segment of Table~\ref{tab:tab_changepoints}. Restrictions were strict throughout (mean stringency \SurveyStringency, against a maximum of \MaxStringency{} on \MaxStringencyDate), and at the end of the window only \SurveyVaxEnd\% of the population was fully vaccinated.
+
+The follow-up of the women's panel, in November 2020, fell on the plateau after the first wave. Stringency averaged \PanelStringency{} and positivity \PanelPositivity\%, yet mobility had returned to about its baseline level (Figure~\ref{fig:timeline}D).
+
+\section{Mobility retreat index}\label{sec:retreat}
+At the low point of the 2020 general holiday, the 7-day mean of workplace visits stood at $\MinWorkplaces$\% relative to baseline. The six mobility series are close to collinear. Their first principal component explains \PCAOne\% of the variance (Table~\ref{tab:tab_mobility_pca}), with the five out-of-home categories loading in one direction and residential time in the other, and this component is the retreat index.
+
+\tabin{tab_mobility_pca}
+
+Mobility levels need a caveat. Google's baseline is fixed at January and February 2020, and by 2022 the transit, grocery and park series sit far above it (Figure~\ref{fig:timeline}D shows transit). Growth in smartphone use and changes in how places are detected can move these series as well as behaviour can, so the 2022 level of the retreat index partly reflects baseline drift. Week-on-week changes are much less exposed to slow drift than levels are.
+
+\section{Stringency and mobility}
+Figure~\ref{fig:policy} plots the weekly retreat index against stringency in levels. The fitted lines flatten from a slope of \PolLevSlopeA{} in 2020 to \PolLevSlopeC{} in 2022. The plot is descriptive only, because the levels regression has strongly autocorrelated residuals (Section~\ref{sec:policy-model}) and its 2022 cloud is displaced by the baseline drift just described.
+
+The model in first differences is in Table~\ref{tab:tab_policy_mobility}. Over \PolNweeks{} weekly changes ($R^2 = \PolRsquared$), a one-point rise in stringency within a week went with a rise of \PolSlopeA{} units in the retreat index in 2020 and \PolSlopeB{} in 2021, and the two slopes do not differ (interaction \PolIntBp). In 2022 the slope was \PolSlopeC{} (interaction \PolIntCp), so a given change in stringency moved mobility about \PolRatio{} times less than it had in 2020. Dropping March 2020, when the first lockdown dominated both series, leaves the 2022 interaction unchanged in significance ($p$~\PolIntCpNoMarch).
+
+\tabin{tab_policy_mobility}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.74\linewidth]{fig_policy_mobility}
+\caption{Weekly mean stringency and the mobility retreat index in levels, by year, with separate least-squares lines and pointwise 95\% bands. The plot is descriptive. Residuals of the levels fit are strongly autocorrelated, so the bands understate the uncertainty, and inference rests on the differenced model of Table~\ref{tab:tab_policy_mobility}.}\label{fig:policy}
+\end{figure}
+
+The weaker 2022 response remains an association between two weekly series. The stringency index records rules on paper, so a weaker response may mean less enforcement as much as less compliance. Stringency also changed less often and by smaller amounts in 2022, which leaves that slope estimated from less variation. Fatigue, economic necessity and the reassurance of vaccination are all plausible explanations, and these data cannot separate them.
+
+The lagged regressions of case growth on the retreat index showed no statistically significant association at any lag. The smallest $p$-value was at lag \LagBest{} ($\hat\beta = \LagBeta$, \LagP), with the positive sign expected when people stay home because cases are already rising.

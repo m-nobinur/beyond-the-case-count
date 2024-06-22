@@ -1,0 +1,66 @@
+\chapter{Results IV: Predicting depressive-symptom status}\label{ch:ml}
+
+\section{Learner comparison over repeated splits}
+A single 75/25 split leaves \MlTestN{} test respondents, and the confidence interval of a test AUC from that many is \TestCiWidthLo{} to \TestCiWidthHi{} wide (Table~\ref{tab:tab_ml_results}), far wider than the differences between learners. The main comparison therefore uses the \RepN{} repeated splits described in Section~\ref{sec:ml-design} (Table~\ref{tab:tab_ml_repeated} and Figure~\ref{fig:mlrep}).
+
+\tabin{tab_ml_repeated}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=\linewidth]{fig_ml_repeated}
+\caption{Test AUC of the four learners in each feature tier over \RepN{} repeated stratified 75/25 splits. Each dot is one split. Black points and bars show the mean and the 2.5th to 97.5th percentile range.}\label{fig:mlrep}
+\end{figure}
+
+Averaged over the splits, logistic regression reached a test AUC of \RepAucALogit{} in tier A, \RepAucBLogit{} in tier B and \RepAucCLogit{} in tier C. The standard deviation of a model's AUC across splits was between \RepSdMin{} and \RepSdMax. Against that spread, the mean paired difference between any learner and logistic regression never exceeded \RepMaxAbsDiff{} in absolute value.
+
+The most favourable case for a flexible learner is XGBoost in tier B, with a mean difference of $\RepDiffBXgb$ and a higher AUC than logistic regression in \RepWinBXgb\% of splits. The random forest was ahead in \RepWinARf\%, \RepWinBRf\% and \RepWinCRf\% of splits in tiers A, B and C. The elastic net was the most consistent. It was ahead of logistic regression in \RepWinCEnet\% of tier-C splits, but by $\RepDiffCEnet$ on average, and the paired difference ranged from $\RepDiffCEnetLo$ to $\RepDiffCEnetHi$ across splits (2.5th to 97.5th percentile). Differences of this size would not change any use of the model.
+
+Each step up in feature tier, by comparison, moves the mean AUC by several split standard deviations. The step from tier B to tier C needs a caveat, because anxiety and stress are concurrent symptom scores, and the BAI total correlates with the PHQ-9 total at $\rho = \RhoAnxDep$, so tier C largely measures how much depression and anxiety overlap. The smaller tuning grids of the repeated splits could also handicap the tree ensembles, but the fixed split below uses the full grids and gives the same answer.
+
+\section{Fixed hold-out split}
+Table~\ref{tab:tab_ml_results} reports all twelve models on the fixed split and Figure~\ref{fig:roc} their ROC curves (hyper-parameters in Appendix Table~\ref{tab:tab_ml_tuning}). This split is one realisation of the procedure repeated above. I report it in full because the calibration, threshold and importance results come from it.
+
+\tabin{tab_ml_results}
+
+Test AUC ranged from \AucRangeLo{} to \AucRangeHi{} over the twelve models. Within tier B the four learners span \AucSpreadB, the same size as the split standard deviation in that tier (\RepSdBLogit). I picked one learner per tier by training cross-validation AUC, without looking at the test set (tier A: \BestALearner; tier B: \BestBLearner; tier C: \BestCLearner). Their test AUCs were \BestAAuc{} (95\% CI \BestALo--\BestAHi), \BestBAuc{} (\BestBLo--\BestBHi) and \BestCAuc{} (\BestCLo--\BestCHi). None differed from logistic regression on the same test cases (paired DeLong \BestAVsLogitP, \BestBVsLogitP{} and \BestCVsLogitP). In tier B the learner chosen by cross-validation had the lowest test AUC of the four, and logistic regression the highest (\AucBLogit).
+
+The gap between cross-validated and test AUC on this split is split noise. In tier B the cross-validated AUC is \CvGapLo{} to \CvGapHi{} above the test AUC for every learner, including logistic regression, which has nothing to tune. In tier A the sign reverses, and all four learners have a test AUC above their cross-validated AUC. For tier B this test set is a harder draw than average, with a logistic AUC (\AucBLogit) a little more than one split standard deviation below the repeated-split mean (\RepAucBLogit).
+
+The gain from tier A to tier B reaches conventional significance for three of the four learners (paired DeLong \TierBvsALogitP{} for logistic regression, \TierBvsAEnetP{} for the elastic net, \TierBvsARfP{} for the random forest) but not for XGBoost (\TierBvsAXgbP). At the Youden threshold chosen on the training folds, tier-B logistic regression had a sensitivity of \LogitSensB{} and a specificity of \LogitSpecB.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.92\linewidth]{fig_ml_roc}
+\caption{ROC curves of the four learners on the fixed hold-out test set ($n = \MlTestN$), by feature tier.}\label{fig:roc}
+\end{figure}
+
+\paragraph{Calibration.} No learner was well calibrated in every tier (Table~\ref{tab:tab_ml_results}; Figure~\ref{fig:cal} for tier B). Unpenalised logistic regression had slopes of \SlopeALogit, \SlopeBLogit{} and \SlopeCLogit{} in tiers A, B and C, so its predicted risks were too extreme. The elastic net, tuned on binomial deviance, was close to 1 in tiers B and C (\SlopeBEnet{} and \SlopeCEnet) but not in tier A (\SlopeAEnet). The random forest's slopes of \SlopeARf, \SlopeBRf{} and \SlopeCRf{} mean its predictions were too compressed towards the mean, and XGBoost was near 1 in tiers A and C and at \SlopeBXgb{} in tier B. With \MlTestN{} test respondents these slopes are noisy, and I would not rank the learners on them.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.92\linewidth]{fig_ml_calibration}
+\caption{Calibration of the four tier-B models on the fixed test set. Points are deciles of predicted risk, plotted against the observed share meeting the depression threshold. The dashed line marks perfect calibration.}\label{fig:cal}
+\end{figure}
+
+\section{Feature ablation}
+Because no learner improved on logistic regression, the ablation uses it alone, refitted on different feature sets over the same \RepN{} splits (Table~\ref{tab:tab_ml_ablation}).
+
+\tabin{tab_ml_ablation}
+
+The 15 tier-A variables give a mean AUC of \AblA. Removing division alone lowers it to \AblANoDiv, so a good part of what tier A knows is the respondent's division. That is an uncomfortable finding for a convenience sample, because division differences partly reflect who was recruited in each place, and in Chattogram they reflect the flagged records as well.
+
+Among the three scales, mindfulness accounts for nearly all of the tier-B gain. Adding it to tier A gives \AblAMind, against \AblB{} for the full tier B. Optimism adds little (\AblAOpt) and pessimism nothing (\AblAPess). The MAAS total on its own, five items, reaches \AblMind, more than the 15 tier-A variables together.
+
+The last row of the table is the PHQ-2 reference, which reaches \AblPhqTwo{} on its own. It is part of the outcome, so the comparison is unfair, and it is there to show the ceiling that a part--whole relationship produces. Two outcome items beat every model in this chapter, including tier C with its 20 variables (\RepAucCLogit). The tier-B result should be judged against that ceiling. The MAAS is a concurrent self-report whose total correlates with the PHQ-9 total at $\rho = \RhoMindDep$. The ablation shows that mindfulness scores are a strong correlate of depressive-symptom status in this sample, and gives no evidence that they are a separate resource whose level drives risk.
+
+\section{Permutation importance}
+Figure~\ref{fig:imp} shows grouped permutation importance for the logistic regressions of tiers A and B on the fixed test set. In tier A the largest drops in AUC came from permuting \emph{\ImpTopA}, \emph{\ImpSecondA} and \emph{\ImpThirdA}, followed by profession and vaccination status, and own COVID-19 infection contributed almost nothing. In tier B, permuting \emph{\ImpTopB} lowered the test AUC by \ImpTopBval, more than three times the drop for \emph{\ImpSecondB}, which came second, ahead of profession and optimism. The ablation points the same way, and the caution about division applies here too. The ranking beyond the first two or three variables rests on one test set and should not be read closely.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.95\linewidth]{fig_ml_importance}
+\caption{Permutation importance of the twelve most important variables in the tier-A and tier-B logistic regressions on the fixed test set. Points are mean drops in test AUC over 30 permutations (all dummy columns of a factor permuted together), and bars the 5th to 95th percentile range.}\label{fig:imp}
+\end{figure}
+
+\section{Secondary checks}
+Repeating the fixed-split analysis for probable anxiety (BAI $\geq$ 16) in tiers A and B gave the same pattern (Appendix Table~\ref{tab:tab_ml_anxiety}), with test AUCs of \AnxALo{} to \AnxAHi{} in tier A and \AnxBLo{} to \AnxBHi{} in tier B. Scoring the tier-B models, trained as before, on the \SensMlNtest{} unflagged test respondents gave AUCs of \SensMlLo{} to \SensMlHi, against \AucBXgb{} to \AucBLogit{} on the full test set. The flagged records, all non-cases with near-identical scale scores, are easy to classify and add roughly 0.01 to the tier-B test AUC without changing the comparison between learners. The Python refit of three comparable tier-B models on the same split (Appendix Table~\ref{tab:tab_ml_crosscheck}) gave test AUCs within \PyMaxDiff{} of the R models, which confirms the implementation and nothing more.

@@ -1,0 +1,25 @@
+\chapter{Introduction}\label{ch:intro}
+
+\section{Background}
+Bangladesh confirmed its first cases of COVID-19 on 8 March 2020. By \NatEndDate{}, official data counted \NatTotalCases{} confirmed cases and \NatTotalDeaths{} deaths \parencite{owid2024}. Testing was limited and unevenly distributed \parencite{hasell2020}, so these counts understate infection. They also say nothing about the much larger number of people who were never infected but lived through a nationwide ``general holiday'' from late March 2020, repeated movement restrictions, prolonged school closures and interrupted incomes.
+
+Several studies have measured these indirect effects. In rural Bangladesh, the first stay-at-home orders were followed by lower incomes, more food insecurity and worse mental health among women and their families \parencite{hamadani2020}. Online surveys found high prevalence of depressive and anxiety symptoms among students and adults \parencite{islam2020,banna2022,islam2023}, and global estimates attribute tens of millions of additional cases of depressive and anxiety disorders to the first pandemic year \parencite{santomauro2021}.
+
+Much of this evidence comes from surveys that were fielded quickly, online or by telephone. Some of the data are now openly available, which makes it possible to check them. For each of three open datasets I reproduce the published numbers where they exist and then ask which conclusions survive stronger checks. The checks are inference that allows for serial correlation in the national series, a test of whether a before/after change in diet differed by wealth, a screen for templated survey responses, and repeated out-of-sample evaluation of prediction models \parencite{collins2015}.
+
+\section{Aim and research questions}
+The aim is to describe mobility, women's diets and mental health in Bangladesh during COVID-19 from three open datasets, using a scripted R and Python workflow, and to report how far the published conclusions hold under the checks listed above. The report addresses five research questions.
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[RQ1] \textit{National series.} How can the 2020--2022 epidemic curve be segmented descriptively, and how did the association between changes in government stringency and changes in population mobility vary across the three years?
+  \item[RQ2] \textit{Household diet.} How did rural women's diet diversity change between November 2019 and November 2020, and did the change differ by household wealth?
+  \item[RQ3] \textit{Individual symptoms.} How prevalent were probable depression and anxiety among surveyed adults in May--June 2021, and which sociodemographic, COVID-19 exposure and psychological factors were associated with them?
+  \item[RQ4] \textit{Latent structure.} What latent structure do the psychological scale scores show, how much of it reflects data quality, and do the resulting profiles differ in kind or only in severity?
+  \item[RQ5] \textit{Prediction.} How much of probable-depression status can be recovered from information other than depressive symptoms, and does model complexity improve on logistic regression?
+\end{description}
+
+\section{Contribution}
+For the mental-health survey I reproduce the published prevalences of probable depression and anxiety exactly \parencite{islam2023,mhdata2022}. The analysis then adds a screen for templated response blocks, prevalence ratios beside the odds ratios, a latent profile analysis, and a comparison of four learners over \RepN{} repeated train/test splits with a feature ablation. The screen flags \SuspectN{} records, \SuspectChatto{} of them from one division (Section~\ref{sec:suspect}). For the household panel \parencite{panel2021}, I test whether the 2019--2020 change in diet diversity differed across wealth quintiles and separate that change from the gap that already existed at baseline. The national series places both surveys on the epidemic timeline and shows that the mental-health survey was fielded as the third wave began (Chapter~\ref{ch:national}). The whole analysis is scripted. R writes every table, figure and in-text statistic to files that \LaTeX{} reads, so the text cannot drift from the results.
+
+\section{Scope and ethical considerations}
+All three sources are secondary, anonymised and openly published. The survey, the panel, Our World in Data and OxCGRT are released under CC BY 4.0, and Google's Community Mobility Reports are published under Google's own terms. I collected no new data, and no individual can be identified. The mental-health survey is an online convenience sample, so its prevalence figures describe the respondents and should not be read as national estimates. The panel covers two districts and changed from in-person to telephone interviewing between rounds. All estimates in the report are associations, and none of the three designs supports a causal claim.

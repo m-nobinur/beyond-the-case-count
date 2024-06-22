@@ -1,0 +1,44 @@
+\chapter{Results II: Women's diet in the household panel}\label{ch:household}
+
+\section{Sample and attrition}\label{sec:attrition}
+Of the \PanBase{} women eligible for the follow-up, \PanN{} (\PanRetention\%) were re-interviewed and have diet data for both rounds, and \PanLost{} were lost. Appendix Table~\ref{tab:tab_panel_attrition} compares the two groups at baseline. The largest standardised difference is \PanMaxSMD, for the wealth score, with retained women slightly better off. Every other difference is below 0.1, including those for age, education, outside work and baseline diet. Attrition of this kind is unlikely to produce the changes reported below, though the paired sample somewhat under-represents the poorest households.
+
+\section{Economic constraints in November 2020}
+At the follow-up, \PanPPP\% of the paired women reported at least one purchasing-power constraint on buying food and \PanMKT\% reported a market-access constraint. Among women who reported on their husband's earnings, \PanHbLow\% said he had earned less in the past week than in a typical week a year earlier. Purchasing-power constraints were reported by \PanQOnePPP\% of the poorest wealth quintile and still by \PanQFivePPP\% of the richest (Figure~\ref{fig:quintile}).
+
+\section{Change in diet diversity}
+Measured diet diversity rose over the same year. The mean number of food groups consumed went from \PanFgBefore{} in 2019 to \PanFgAfter{} in 2020, a paired difference of \PanFgDiff{} groups (95\% CI \PanFgCIlo{} to \PanFgCIhi; $t = \PanFgT$, \PanFgP; Wilcoxon \PanWilcoxP; $d_z = \PanDz$). Diversity rose for \PanImproved\% of women and fell for \PanDeclined\%. The share meeting MDD-W rose from \PanMddBefore\% to \PanMddAfter\%, with \PanMddGain{} women moving above the threshold and \PanMddLoss{} moving below it (McNemar $\chi^2 = \PanMcChi$, \PanMcP).
+
+Figure~\ref{fig:foodgroups} and Table~\ref{tab:tab_panel_foodgroups} give the change for each food group. \PanNsigFg{} of the ten changed at a false-discovery rate of 5\%. The largest rise was in \MakeLowercase{\PanTopFg} (\PanTopFgB\% to \PanTopFgA\%), followed by dairy, eggs and dark-green leafy vegetables. The one decline was in \MakeLowercase{\PanLowFg} (\PanLowFgB\% to \PanLowFgA\%). The direction of the overall change matches what the original authors reported from these data \parencite{panel2021}.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.85\linewidth]{fig_panel_foodgroups}
+\caption{Percentage of women who consumed each MDD-W food group in the previous 24 hours, November 2019 (in person) and November 2020 (telephone), $n = \PanN$ paired women. Arrows run from 2019 to 2020. Asterisks mark changes with a Benjamini--Hochberg adjusted McNemar $p < 0.05$.}\label{fig:foodgroups}
+\end{figure}
+
+\tabin{tab_panel_foodgroups}
+
+How much of this rise reflects what women ate is uncertain, because the 2019 recall was collected in person and the 2020 recall by telephone. A change of mode can shift answers to a 24-hour recall through differences in prompting, in who else is listening and in the length of the interview, and I know of no basis for signing that shift here. Both rounds were fielded in November, which holds season fixed, but mode and year are completely confounded, so the rise cannot be attributed to the pandemic year or bounded from either side. A collapse in dietary diversity is hard to reconcile with these data, since any true fall would require a mode effect larger than \PanFgDiff{} food groups.
+
+\section{Diet diversity by wealth quintile}
+Table~\ref{tab:tab_panel_byquintile} splits the change by baseline wealth quintile. The gain was close to uniform, at \PanGainQOne{} food groups in the poorest quintile, then \PanGainQTwo, \PanGainQThree{} and \PanGainQFour, and \PanGainQFive{} in the richest. The change-score model does not reject equal gains (robust Wald $\chi^2 = \PanChgW$ on 4 degrees of freedom, \PanChgP).
+
+\tabin{tab_panel_byquintile}
+
+The wealth gap in levels existed before the pandemic and was still there a year later. In 2019 the poorest quintile consumed \PanQOneFgB{} food groups on average and the richest \PanQFiveFgB, and \PanQOneMddB\% of the poorest women met MDD-W against \PanQFiveMddB\% of the richest. In 2020 the MDD-W figures were \PanQOneMddA\% and \PanQFiveMddA\% (Figure~\ref{fig:quintile}). The gradient is not strictly monotone, since the fourth quintile sits slightly below the third in 2019.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.8\linewidth]{fig_panel_quintile}
+\caption{Share of women meeting MDD-W in 2019 and in 2020, and share reporting a purchasing-power constraint in 2020, by baseline wealth quintile (1 = poorest).}\label{fig:quintile}
+\end{figure}
+
+A shift of about one food group in every quintile is what a mode effect would look like, and also what a general change in diets would look like, so the uniformity does not settle the question of mode. It does show that the year did not widen the dietary gap between poorer and richer women in this sample, even though the poorer women reported more constraints.
+
+\section{ANCOVA for 2020 diet diversity}
+Table~\ref{tab:tab_panel_ancova} reports the ANCOVA ($n = \PanAncN$, $R^2 = \PanAncR$). Holding 2019 diversity and the other covariates fixed, women in the richest quintile consumed \PanQFiveb{} more food groups in 2020 than women in the poorest (\PanQFivep). Read alone, this suggests that poorer women fell behind, and the change scores show that they did not. The two results are reconciled by the baseline coefficient, which is only \PanBaseb{} per food group. With a coefficient that far below 1 the model barely adjusts for 2019, and the quintile terms mostly restate the level gap that was already present. This is the situation Lord's paradox describes (Section~\ref{sec:wealth-models}). Richer women had more diverse diets in both years, and all quintiles gained about the same amount.
+
+\tabin{tab_panel_ancova}
+
+The low baseline coefficient and the low $R^2$ both indicate that one day's recall, taken a year apart and in a different mode, is a noisy indicator of a woman's usual diet. Of the other covariates, education above primary level and an increase in the food-decision index between rounds were positively associated with 2020 diversity, and women in Patuakhali reported less diverse diets than women in Faridpur. Neither reported constraint was associated with 2020 diversity once wealth and the other covariates were in the model (purchasing power $\hat\beta = \PanPPPb$, \PanPPPp; market access $\hat\beta = \PanMKTb$, \PanMKTp). Their confidence intervals include effects of a few tenths of a food group in either direction, so this is weak evidence of no effect.

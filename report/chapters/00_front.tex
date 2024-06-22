@@ -1,0 +1,98 @@
+% ---------------- Title page ----------------
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+\vspace*{2.5cm}
+{\LARGE\bfseries \ProjectTitle\par}
+\vspace{0.6cm}
+{\large\itshape \ProjectSubtitle\par}
+\vspace{2.2cm}
+{\normalsize An independent data-science research report\par}
+\vspace{2.2cm}
+{\Large \AuthorName\par}
+\vspace{0.3cm}
+{\normalsize \AuthorDegree\par}
+{\normalsize \AuthorAffiliation\par}
+\ifx\AuthorContact\empty\else\vspace{0.3cm}{\normalsize\url{\AuthorContact}\par}\fi
+\vfill
+{\small Open data \quad$\cdot$\quad R and Python \quad$\cdot$\quad APA 7th edition\par}
+\vspace{0.6cm}
+{\normalsize \ReportDate\par}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+% ---------------- Preface ----------------
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+This report is the outcome of a self-directed personal project that I carried out after the COVID-19 pandemic. It was not written for any course or degree. I wanted to know what the pandemic did to people in Bangladesh beyond the daily case counts, and what the open data published during those years can and cannot support. The report therefore works as an audit. It takes three openly published datasets, reproduces the published figures where the original studies report them, and then tests which conclusions survive stronger checks. All data are secondary, openly published and anonymised, and sources are cited in APA 7th-edition style \parencite{apa2020}. The accompanying code generates every table, figure and in-text number, and it can be rerun from the raw data with one command.
+
+% ---------------- Acknowledgements ----------------
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+I thank the teams who released the data used here: Azharul Islam and colleagues for the 2021 mental-health survey; Els Lecoutere, Marrit van den Berg and Alan de Brauw for the women's diet-diversity panel; Our World in Data; the Oxford COVID-19 Government Response Tracker; and Google for the Community Mobility Reports. A re-analysis like this one depends entirely on their decision to publish. I also thank the developers of R, the tidyverse and scikit-learn, and my family for their support.
+
+% ---------------- Abstract ----------------
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\noindent\textbf{Background.} Most accounts of COVID-19 in Bangladesh rest on case counts or on single surveys. This report re-analyses three open datasets on mobility, women's diets and mental health. It reproduces the published figures first, then tests which conclusions survive stronger checks.
+
+\noindent\textbf{Data and methods.} For 2020--2022, the national association between policy stringency and mobility was estimated on weekly first differences. A panel of \PanN{} rural women (November 2019 and November 2020) was analysed for change overall and by wealth quintile. An online survey of \MhN{} adults (May--June 2021) was screened for templated responses and analysed with regression and latent profile analysis. Four learners predicted probable depression (PHQ-9 $\geq$ 10) from non-symptom variables over \RepN{} repeated train/test splits.
+
+\noindent\textbf{Results.} The mobility response to a change in stringency was about \PolRatio{} times smaller in 2022 than in 2020 (\PolIntCp). Diet diversity rose by \PanFgDiff{} food groups, with no evidence that the gain differed by wealth quintile (\PanChgP), although \PanPPP\% of women reported purchasing-power constraints. The wealth gap pre-dated the pandemic, and the interview mode changed between rounds. The survey's published prevalences were reproduced exactly (\PrevDep\% depression, \PrevAnx\% anxiety). The screen flagged \SuspectN{} records, \SuspectChatto{} of them from Chattogram division and none meeting the depression threshold. Excluding them moved Chattogram's adjusted odds ratio for depression from \SensChattoAll{} to \SensChattoExcl. The \GmmK{} latent profiles were ordered bands of one severity score. Logistic regression reached a mean test AUC of \RepAucALogit{} from demographic and COVID-19 variables and \RepAucBLogit{} with three psychological scales added, and no other learner differed from it by more than \RepMaxAbsDiff. The mindfulness score alone gave \AblMind. Two PHQ-9 items, which overlap the outcome and serve only as a reference ceiling, gave \AblPhqTwo.
+
+\noindent\textbf{Conclusions.} The diet gain cannot be separated from the change of interview mode, the lowest-prevalence division holds almost all the flagged records, and flexible learners added nothing measurable over logistic regression. The mental-health survey is an online convenience sample and the panel covers two districts, so the estimates describe their respondents.
+
+\vspace{0.3cm}
+\noindent\textbf{Keywords:} COVID-19; Bangladesh; open data; re-analysis; mobility; diet diversity; PHQ-9; data quality; latent profile analysis; prediction models; reproducible research.
+
+% ---------------- Lists ----------------
+\cleardoublepage
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+
+\chapter*{List of abbreviations}
+\addcontentsline{toc}{chapter}{List of abbreviations}
+\begin{singlespace}
+\begin{tabular}{@{}p{3cm}p{11cm}@{}}
+ANCOVA & Analysis of covariance \\
+aOR & Adjusted odds ratio \\
+aPR & Adjusted prevalence ratio \\
+AUC & Area under the receiver operating characteristic curve \\
+AvePP & Average posterior probability of class membership \\
+BAI & Beck Anxiety Inventory \\
+BH & Benjamini--Hochberg adjustment for the false discovery rate \\
+BIC & Bayesian information criterion \\
+CI & Confidence interval \\
+CV & Cross-validation \\
+EM & Expectation--maximisation algorithm \\
+HAC & Heteroskedasticity- and autocorrelation-consistent (Newey--West) \\
+HC0, HC3 & Heteroskedasticity-consistent covariance estimators (types 0 and 3) \\
+HSC & Higher Secondary Certificate \\
+ICL & Integrated completed likelihood \\
+LOT-R & Life Orientation Test--Revised \\
+MAAS & Mindful Attention Awareness Scale \\
+MBIC & Modified Bayesian information criterion \\
+MDD-W & Minimum Dietary Diversity for Women \\
+MH & Mental health (in table labels) \\
+OLS & Ordinary least squares \\
+OWID & Our World in Data \\
+OxCGRT & Oxford COVID-19 Government Response Tracker \\
+PC, PCA & Principal component, principal component analysis \\
+PELT & Pruned Exact Linear Time change-point algorithm \\
+PHQ-2 & First two items of the PHQ-9 \\
+PHQ-9 & Patient Health Questionnaire-9 \\
+PSS-4 & Perceived Stress Scale (4-item) \\
+ROC & Receiver operating characteristic \\
+RQ & Research question \\
+RRR & Relative risk ratio \\
+SD & Standard deviation \\
+SE & Standard error \\
+SES & Socio-economic status \\
+SMD & Standardised mean difference \\
+SSC & Secondary School Certificate \\
+XGBoost & Extreme gradient boosting \\
+\end{tabular}
+\end{singlespace}

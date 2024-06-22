@@ -1,0 +1,102 @@
+\chapter{Results III: Depression and anxiety in the online survey}\label{ch:mental}
+
+\section{Sample and measurement quality}
+The analytic sample has \MhN{} adults (Appendix Table~\ref{tab:tab_table1}). Mean age was \MhAgeMean{} years (SD \MhAgeSD), \MhFemale\% were women, \MhStudents\% were students, \MhUrban\% lived in urban areas and \MhDhaka\% lived in Dhaka division. The sample is younger, more urban and more educated than the national population, as online samples usually are. Exposure to the pandemic was common. Of the respondents, \MhInfected\% reported having been infected, \MhFamInf\% reported an infected family member, and \MhFamDeath\% had lost a family member to COVID-19. Two vaccine doses had been received by \MhTwoDose\% and none by \MhNoVax\%, at a time when national two-dose coverage was \SurveyVaxEnd\%. A previous mental disturbance was reported by \MhHistYes\%.
+
+The two outcome instruments are reliable in this sample (BAI $\alpha = \AlphaBAI$; PHQ-9 $\alpha = \AlphaPHQ$), and so is the MAAS ($\alpha = \AlphaMAAS$; Table~\ref{tab:tab_reliability}). The short scales are weaker. Optimism reaches $\alpha = \AlphaOpt$, the PSS-4 $\alpha = \AlphaPSS$ and the pessimism sub-scale only $\alpha = \AlphaPess$. The PSS-4 value does not come from a coding error (Section~\ref{sec:reproduce}). I kept the authors' scoring, left pessimism out of the latent profile analysis and treat stress as a secondary measure. Measurement error of this size attenuates any association that involves these three scales.
+
+\tabin{tab_reliability}
+
+\section{Prevalence}
+Probable depression (PHQ-9 $\geq$ 10) was present in \PrevDep\% of respondents (95\% Wilson interval \PrevDepLo--\PrevDepHi) and probable anxiety (BAI $\geq$ 16) in \PrevAnx\% (\PrevAnxLo--\PrevAnxHi). Both figures match the published study \parencite{islam2023}. Both thresholds were met by \PrevBoth\% and at least one by \PrevEither\%, and the two total scores were strongly correlated (Spearman $\rho = \RhoAnxDep$; Figure~\ref{fig:cor}).
+
+Figure~\ref{fig:prev} shows the subgroup estimates. Depression prevalence was \DepStudent\% among students and \DepPaid\% among salaried workers, \DepHistYes\% among respondents with a mental-health history and \DepHistNo\% among those without, and \DepFamDeath\% among those who had lost a family member to COVID-19 against \DepFamNone\% among those with no family infection. The largest contrast is by vaccination. Of the two-dose respondents \DepVaxTwo\% met the depression threshold, against \DepVaxNone\% of the unvaccinated. Women and men did not differ in depression (\DepFemale\% and \DepMale\%), although women had the higher prevalence of anxiety.
+
+Prevalence also varied by division, from \DepDivChattogram\% in Chattogram and \DepDivRangpur\% in Rangpur to \DepDivRajshahi\% in Rajshahi, with the other five divisions between \DepDivMidLo\% and \DepDivMidHi\%. The ordering does not follow geography in any simple way. Rangpur, the northernmost division, had the second-lowest prevalence, while Khulna and Barishal in the south were above the sample average. Outside Dhaka and Chattogram each division contributes only \DivNLo{} to \DivNHi{} respondents, so the intervals are wide. The Chattogram estimate has a second problem. That division holds \SuspectChatto{} of the \SuspectN{} flagged records, none of which is a depression case (Section~\ref{sec:templated}).
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=.97\linewidth]{fig_mh_prevalence}
+\caption{Prevalence of probable depression (PHQ-9 $\geq$ 10) and probable anxiety (BAI $\geq$ 16) by subgroup, with 95\% Wilson score intervals ($N = \MhN$). Dashed lines mark the overall prevalence of each outcome.}\label{fig:prev}
+\end{figure}
+
+At the item level (Figure~\ref{fig:phq}), low mood, fatigue, sleep problems and anhedonia were the most often endorsed PHQ-9 symptoms, each reported by about two-thirds of respondents or more. Item 9 asks about thoughts of being better off dead or of self-harm, and \Suicidal\% of respondents endorsed it for at least several days in the previous two weeks. That is unusually high for a general adult sample. It may partly reflect how the item was translated or understood, and a screening item is not a clinical assessment, so I report the figure without building on it.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.85\linewidth]{fig_mh_phq_items}
+\caption{Responses to the nine PHQ-9 items over the previous two weeks, as shares of all respondents. Items are ordered by the share reporting the symptom on at least several days.}\label{fig:phq}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.72\linewidth]{fig_mh_correlation}
+\caption{Spearman correlations among the six scale totals, age and the SES ladder.}\label{fig:cor}
+\end{figure}
+
+\section{Adjusted associations}\label{sec:mh-models}
+Appendix Table~\ref{tab:tab_or} gives adjusted odds ratios from model B for both outcomes, and Figure~\ref{fig:or} shows the predictors with $q < 0.10$ in either model. After Benjamini--Hochberg adjustment, \NsigDep{} terms were associated with depression and \NsigAnx{} with anxiety at $q < 0.05$. Table~\ref{tab:tab_mh_pr} sets adjusted prevalence ratios (aPR) beside the odds ratios for the main predictors of depression, under model A and model B, for the reasons given in Section~\ref{sec:mh-methods}.
+
+\tabin{tab_mh_pr}
+
+\paragraph{COVID-19 exposure.} Respondents who had lost a family member to COVID-19 had higher odds of probable depression (aOR \OrFamDeathB, \OrFamDeathBq), which corresponds to a prevalence ratio of \PrFamDeathB{} in model B and \PrFamDeathA{} in model A. Having infected relatives who survived was also associated with depression (aOR \OrFamInf, 95\% CI \OrFamInfLo--\OrFamInfHi). For the respondent's own infection the data say little. Home-treated infection gave an aOR of \OrHome{} (\OrHomeLo--\OrHomeHi). Only \MhHospN{} respondents had been hospitalised, and their estimate is imprecise (aOR \OrHospB, 95\% CI \OrHospLo--\OrHospHi), compatible with no association and with a sixfold increase in odds.
+
+\paragraph{Vaccination.} Two-dose respondents had lower odds of depression (aOR \OrTwoDose, \OrTwoDoseq; aPR \PrTwoDoseB) and of anxiety (aOR \OrAnxTwoDose, \OrAnxTwoDoseLo--\OrAnxTwoDoseHi). Without the psychological scales the depression estimates are aOR \OrTwoDoseA{} and aPR \PrTwoDoseA. I do not read this as an effect of vaccination. When only \SurveyVaxEnd\% of the population had two doses, the \MhTwoDose\% of respondents who did were a selected group, and the covariates available here cannot describe what selected them. The flagged records also contribute, as the next section shows.
+
+\paragraph{History, occupation and social position.} A history of mental disturbance (aOR \OrHist, 95\% CI \OrHistLo--\OrHistHi; aPR \PrHistB), being a student (aOR \OrStudent, \OrStudentq; aPR \PrStudentB) and a lower position on the SES ladder (aOR \OrSes{} per step, \OrSesLo--\OrSesHi) were associated with depression. In model A the first two estimates were \OrHistA{} and \OrStudentA. Sex was not associated with depression in either model (aOR \OrFemaleA{} in model A and \OrFemaleB{} in model B), which agrees with the unadjusted prevalences. Women did have higher adjusted odds of anxiety (aOR \OrAnxFemale, \OrAnxFemaleLo--\OrAnxFemaleHi).
+
+\paragraph{Psychological scales.} Each additional MAAS point was associated with lower odds of depression (aOR \OrMind, 95\% CI \OrMindLo--\OrMindHi; aPR \PrMindB), as was each optimism point (aOR \OrOpt, \OrOptLo--\OrOptHi). Adding the three scales to model A improved fit (likelihood-ratio $\chi^2 = \LrChi$, df $= \LrDf$, \LrP) and raised Nagelkerke's $R^2$ from \NagA{} to \NagB. Pessimism showed no association (aOR \OrPess, \OrPessLo--\OrPessHi), which is unsurprising for a scale with $\alpha = \AlphaPess$. These scales were answered in the same sitting as the PHQ-9, so they are concurrent correlates of depressive symptoms, and a cross-sectional survey cannot show that they protect against them.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.9\linewidth]{fig_mh_or}
+\caption{Adjusted odds ratios with 95\% confidence intervals (log scale) for probable depression and probable anxiety from model B, for predictors with $q < 0.10$ in either model. Faded estimates have $q \geq 0.05$ in that model.}\label{fig:or}
+\end{figure}
+
+\section{Sensitivity to the flagged records}\label{sec:templated}
+None of the \SuspectN{} flagged records is a depression case (Section~\ref{sec:suspect}), so excluding them removes non-cases of depression and nothing else. Prevalence in the remaining sample rises, and any characteristic that is over-represented among the flagged records loses part of its apparent association with low depression. Table~\ref{tab:tab_mh_sensitivity} shows this for the refitted model B ($N = \CleanN$). For depression, the Chattogram odds ratio moves from \SensChattoAll{} to \SensChattoExcl. The two-dose odds ratio moves from \OrTwoDose{} to \SensVaxExcl, because \SuspectTwoDose\% of the flagged respondents reported two doses. The other odds ratios in the table change little (by \SensMaxOther{} or less). No estimate changes direction, and every depression interval that excluded 1 in the full sample still does.
+
+I cannot tell from the file whether these records are real low-symptom respondents entered through a template or entries that should not be there. The full-sample estimates reproduce the published analysis and the restricted estimates are the cautious alternative. For Chattogram and for vaccination the two differ enough that both should be quoted.
+
+\tabin{tab_mh_sensitivity}
+
+\section{Latent profiles}
+\subsection{Model selection}
+Among the mixture models fitted to the \GmmN{} unflagged respondents, ICL selected the \GmmModel{} parameterisation with $G = \GmmK$. By the usual classification diagnostics this solution looks clean, with a relative entropy of \GmmEntropy{} and a lowest average posterior probability of \GmmMinAvePP.
+
+Other evidence is less favourable to three distinct groups. The mean silhouette width of the three-profile partition is only \GmmSil, which indicates heavily overlapping clusters. A $k$-means analysis prefers $k = \KmSilBest$ by the same measure (mean silhouette \KmSilMax), and its three-cluster partition agrees moderately with the profiles (adjusted Rand index \KmARI). BIC does not settle on a number of classes either. Its maximum is at $G = \GmmBicK$, the edge of the grid (Figure~\ref{fig:bic}), as happens when a mixture approximates one skewed continuous distribution. The \GmmModel{} parameterisation could be estimated only up to $G = 3$, so the ICL choice was made from a restricted set.
+
+A dimensional description fits these data at least as well. The first principal component of the five indicators carries \ProfPcOnePve\% of their variance, and profile membership explains \ProfPcOneRsq{} of the variance in that component ($R^2$). The three profiles are mostly three consecutive bands of one severity score.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.7\linewidth]{fig_profiles_bic}
+\caption{BIC of the four diagonal covariance parameterisations by number of mixture components, fitted without the flagged records ($N = \GmmN$). Higher is better. Missing points are models that could not be estimated. The dashed line marks the BIC-optimal number of components, which is the largest value tried.}\label{fig:bic}
+\end{figure}
+
+\subsection{Flagged records in the full-sample fit}\label{sec:spike}
+The flagged records first came to light in this analysis. Respondents who share a response block have identical stress, optimism and mindfulness totals, and a Gaussian mixture can raise its likelihood by placing a narrow component on such a cluster. I checked how general this is by fitting all four diagonal parameterisations with $G = 3$ to $6$ to the full sample. Of the \SpikeFitsTotal{} fits that could be estimated, \SpikeFits{} contained a small class (under 5\% of respondents) of which at least 80\% were flagged records. In the VEI model with $G = 4$, for example, one class holds \SpikeN{} respondents, of whom \SpikeOverlap\% are flagged. Model selection is affected as well. ICL chose \GmmAllICL{} (parameterisation, number of classes) in the full sample and \GmmICLbest{} without the flagged records.
+
+\subsection{Profile description}
+Figure~\ref{fig:profiles} and Table~\ref{tab:tab_profiles} describe the three profiles, labelled the low, middle and high bands. The low band (\ProfOnePct\% of respondents) has a mean PHQ-9 of \ProfOnePhq{} and a mean BAI of \ProfOneBai, with the highest mindfulness and optimism. The middle band (\ProfTwoPct\%) sits close to the sample mean on every indicator, with a mean PHQ-9 of \ProfTwoPhq. The high band (\ProfThreePct\%) has a mean PHQ-9 of \ProfThreePhq{} and a mean BAI of \ProfThreeBai, with the lowest mindfulness and optimism. The profile means are ordered the same way on all five indicators, as a severity reading predicts.
+
+The share meeting the depression threshold is \ProfOneDep\%, \ProfTwoDep\% and \ProfThreeDep\% in the three bands. These rates are partly circular, because the PHQ-9 total is one of the five indicators that define the profiles. When the mixture is refitted without the depression indicator, the new profiles agree only moderately with the original ones (adjusted Rand index \AriNoDep).
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.8\linewidth]{fig_profiles_means}
+\caption{Mean standardised scores on the five indicators for the three latent profiles (\GmmModel{} mixture, $G = \GmmK$, $N = \GmmN$).}\label{fig:profiles}
+\end{figure}
+
+\tabin{tab_profiles}
+
+\subsection{Covariates of profile membership}
+A multinomial logistic regression relates profile membership to sex, age, mental-health history, profession, residence, SES, own and family COVID-19 experience and vaccination, with the low band as reference (Figure~\ref{fig:rrr}). Membership of the high band was associated with a history of mental disturbance (RRR \ProfTopHist, \ProfTopHistq), being a student (RRR \ProfTopStudent, \ProfTopStudentq), lower SES (RRR \ProfTopSES{} per step, \ProfTopSESq) and a family death from COVID-19 (RRR \ProfTopFamDeath, \ProfTopFamDeathq). Two vaccine doses were associated with a lower relative risk (RRR \ProfTopTwoDose, \ProfTopTwoDoseq), and sex showed no clear association (RRR \ProfTopFemale{} for women, \ProfTopFemaleq).
+
+These are the same covariates, with the same signs, as in the logistic regressions of Section~\ref{sec:mh-models}. The profiles are largely bands of a severity score in which the PHQ-9 is one component, so this agreement is expected and should not be counted as independent support.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=.85\linewidth]{fig_profiles_rrr}
+\caption{Relative risk ratios with 95\% confidence intervals (log scale) for membership of the middle and high bands relative to the low band, from a multinomial logistic regression ($N = \GmmN$). Faded estimates have Benjamini--Hochberg $q \geq 0.05$.}\label{fig:rrr}
+\end{figure}
