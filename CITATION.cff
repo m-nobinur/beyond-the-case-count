@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this analysis or code, please cite it as below."
+title: "Beyond the Case Count: Mobility, Diet and Mental Health in Bangladesh During COVID-19"
+abstract: "A reproducible re-analysis of three open datasets on how COVID-19 affected people in Bangladesh: national policy and mobility series, a two-wave panel of rural women's diets, and an online mental-health survey."
+authors:
+  - family-names: Nobinur
+    given-names: Mohammad
+version: 1.0.0
+date-released: 2024-07-27
+license: MIT
+repository-code: "https://github.com/m-nobinur/beyond-the-case-count"
+keywords:
+  - COVID-19
+  - Bangladesh
+  - statistics
+  - machine learning
+  - reproducible research
+type: software
